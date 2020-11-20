@@ -1,5 +1,5 @@
 using {training.salesorder as salesorder} from '../schemas/salesorder';
-using {training.user as user} from '../schemas/user';
+
 
 namespace training.salesorderbyuserview;
 
