@@ -9,6 +9,7 @@ entity TblSalesOrder: Base{
     status: STATUS_TYPE;
     user: Association to TblUser;
     client: Association to TblClient;
+    time: DateTime;
 }
 
 entity TblSalesOrderItem: Base{
