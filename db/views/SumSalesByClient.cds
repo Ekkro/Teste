@@ -9,6 +9,6 @@ define view SumSalesByClientView as
     from salesorder.TblSalesOrderItem {
         salesOrder.client.ID as ![clientId],
         salesOrder.client.name as ![clientname],
-        sum(product.salesPrice * product.quantity) as ![SumSales]
+        sum(product.salesPrice * product.quantity) as ![SumSales]:Double
     }group by salesOrder.client.ID, salesOrder.client.name
     ;

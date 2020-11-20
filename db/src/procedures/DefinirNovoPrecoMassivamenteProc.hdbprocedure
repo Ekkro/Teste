@@ -3,38 +3,39 @@ PROCEDURE "training.procedures::DefineNewPriceProc"
     SQL SECURITY DEFINER
 AS
 BEGIN
-    comprasDoUltimoMes = select
-        from salesorder.TblSalesOrderItem {
-            salesOrder.client.ID as ![clientId],
-            salesOrder.client.name as ![clientname],
-            sum(product.salesPrice * product.quantity) as ![SumSales]
-        }
-        where MONTH(salesOrder.time) = MONTH(DATE_SUB(now(), INTERVAL 1 MONTH)) AND
-            YEAR(salesOrder.time) = YEAR(DATE_SUB(now(), INTERVAL 1 MONTH))
-        group by salesOrder.client.ID, salesOrder.client.name
-        ;
-    categoriaD = select
-        from comprasDoUltimoMes{
-            comprasDoUltimoMes.clientId as ![clientId]
-        }
-        where SumSales <= 200
-        ;
-    categoriaC = select
-        from comprasDoUltimoMes{
-            comprasDoUltimoMes.clientId as ![clientId]
-        }
-        where SumSales > 201 AND SumSales <=500 
-        ;
-    categoriaB = select
-        from comprasDoUltimoMes{
-            comprasDoUltimoMes.clientId as ![clientId]
-        }
-        where SumSales > 501 AND SumSales <=1000 
-        ;
-    categoriaA = select
-        from comprasDoUltimoMes{
-            comprasDoUltimoMes.clientId as ![clientId]
-        }
-        where SumSales > 1001
-        ;
+--    comprasDoUltimoMes = SELECT clients.ID as clientId, sum(product.salesPrice * product.quantity) as SumSales
+--        FROM TblSalesOrder as salesOrderT
+--        JOIN TblSalesOrderItem as salesOrderItemT ON salesOrderT.ID = salesOrderItemT.salesOrder
+--        JOIN TblClient as clientT ON salesOrderT.client = clientT.ID
+--        JOIN TblProducts as productsT ON salesOrderItemT.product = productsT.ID
+--       WHERE MONTH(salesOrderT.time) = MONTH(DATE_SUB(now(), INTERVAL 1 MONTH)) AND
+--            YEAR(salesOrderT.time) = YEAR(DATE_SUB(now(), INTERVAL 1 MONTH))
+--        GROUP BY clientId
+--        ;
+
+--    UPDATE TblClient
+--    SET category = "D"
+--    WHERE TblCleint.ID in (
+--        SELECT clientId
+--        FROM comprasDoUltimoMes
+--        WHERE SumSales <= 200
+--    );
+--    SET category = "C"
+--    WHERE TblCleint.ID in (
+--       SELECT clientId
+--        FROM comprasDoUltimoMes
+--        SumSales > 201 AND SumSales <=500 
+--    );
+--    SET category = "B"
+--    WHERE TblCleint.ID in (
+--        SELECT clientId
+--        FROM comprasDoUltimoMes
+--        SumSales > 501 AND SumSales <=1000
+--    );
+--   SET category = "A"
+--    WHERE TblCleint.ID in (
+--        SELECT clientId
+--        FROM comprasDoUltimoMes
+--        SumSales > 1001
+--    );
 END
